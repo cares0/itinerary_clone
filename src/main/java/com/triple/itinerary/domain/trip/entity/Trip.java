@@ -32,11 +32,38 @@ public class Trip {
     private TripStyle tripStyle;
 
     @Builder
-    public Trip(String city, LocalDate arrivalDate, LocalDate departureDate) {
+    public Trip(String city, String title, LocalDate arrivalDate, LocalDate departureDate, Partner partner, TripStyle tripStyle) {
         this.city = city;
         this.title = title;
         this.period = Period.builder().arrivalDate(arrivalDate).departureDate(departureDate).build();
+        this.partner = partner;
+        this.tripStyle = tripStyle;
     }
 
+    public void update(Trip modified) {
+        String city = modified.getCity();
+        if (Objects.nonNull(city)) {
+            this.city = city;
+        }
+        String title = modified.getTitle();
+        if (Objects.nonNull(title)) {
+            this.title = title;
+        }
+
+        LocalDate arrivalDate = modified.getPeriod().getArrivalDate();
+        LocalDate departureDate = modified.getPeriod().getDepartureDate();
+        if (Objects.nonNull(arrivalDate) && Objects.nonNull(departureDate)) {
+            this.period.updateDate(arrivalDate, departureDate);
+        }
+
+        Partner partner = modified.getPartner();
+        if (Objects.nonNull(partner)) {
+            this.partner = partner;
+        }
+        TripStyle tripStyle = modified.getTripStyle();
+        if (Objects.nonNull(tripStyle)) {
+            this.tripStyle = tripStyle;
+        }
+    }
 
 }

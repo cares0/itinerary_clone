@@ -31,4 +31,12 @@ public class Period {
         this.arrivalDate = arrivalDate;
         this.departureDate = departureDate;
     }
+
+    public void updateDate(LocalDate arrivalDate, LocalDate departureDate) {
+        if (departureDate.isAfter(arrivalDate)) {
+            throw new WrongDepartureDateException();
+        }
+        this.arrivalDate = arrivalDate;
+        this.departureDate = departureDate;
+    }
 }

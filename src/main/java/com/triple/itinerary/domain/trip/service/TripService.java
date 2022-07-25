@@ -18,5 +18,15 @@ public class TripService {
         return tripRepository.save(trip).getId();
     }
 
+    public Trip modify(Long tripId, Trip modified) {
+        Trip original = findTrip(tripId);
+        original.update(modified);
+        return original;
+    }
+
+    private Trip findTrip(Long tripId) {
+        return tripRepository.findById(tripId).orElseThrow(() ->
+                new EntityNotFoundException("해당 ID와 일치하는 여행을 찾을 수 없음"));
+    }
 
 }
