@@ -4,7 +4,9 @@ import com.triple.itinerary.domain.trip.entity.Partner;
 import com.triple.itinerary.domain.trip.entity.Trip;
 import com.triple.itinerary.domain.trip.entity.TripStyle;
 import com.triple.itinerary.domain.trip.exception.WrongDepartureDateException;
+import com.triple.itinerary.domain.user.User;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,17 +27,27 @@ class TripServiceTest {
     @Autowired
     EntityManager em;
 
+    Long userId;
+
+    @BeforeEach
+    public void initUserId() {
+        User user = User.builder().build();
+        em.persist(user);
+        userId = user.getId();
+    }
+
     @Test
     public void 여행_저장_정상요청() throws Exception {
         // given
         Trip trip = Trip.builder()
                 .city("도시")
+                .title("도시 여행")
                 .departureDate(LocalDate.of(2022, 07, 10))
                 .arrivalDate(LocalDate.of(2022, 07, 20))
                 .build();
 
         // when
-        Long findId = tripService.add(trip);
+        Long findId = tripService.add(userId, trip);
         Trip findTrip = em.find(Trip.class, trip.getId());
 
         // then
@@ -46,6 +58,7 @@ class TripServiceTest {
     public void 여행_저장_날짜예외() throws Exception {
         assertThatThrownBy(() -> Trip.builder()
                 .city("도시")
+                .title("도시 여행")
                 .departureDate(LocalDate.of(2022, 07, 20))
                 .arrivalDate(LocalDate.of(2022, 07, 10))
                 .build())
@@ -62,7 +75,7 @@ class TripServiceTest {
                 .arrivalDate(LocalDate.of(2022, 07, 20))
                 .build();
 
-        Long originalId = tripService.add(originalTrip);
+        Long originalId = tripService.add(userId, originalTrip);
 
         em.flush();
         em.clear();
@@ -94,7 +107,7 @@ class TripServiceTest {
                 .arrivalDate(LocalDate.of(2022, 07, 20))
                 .build();
 
-        Long originalId = tripService.add(originalTrip);
+        Long originalId = tripService.add(userId, originalTrip);
 
         em.flush();
         em.clear();
@@ -131,7 +144,7 @@ class TripServiceTest {
                 .partner(Partner.ETC)
                 .build();
 
-        Long originalId = tripService.add(originalTrip);
+        Long originalId = tripService.add(userId, originalTrip);
 
         em.flush();
         em.clear();

@@ -11,8 +11,7 @@ import java.util.Objects;
 
 import static lombok.AccessLevel.PRIVATE;
 
-@Getter
-@Setter
+@Getter @Setter
 @Builder
 @AllArgsConstructor(access = PRIVATE)
 public class TripEditResponse {

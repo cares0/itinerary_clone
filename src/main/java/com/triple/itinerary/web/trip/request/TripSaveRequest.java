@@ -11,10 +11,12 @@ import java.time.LocalDate;
 
 import static lombok.AccessLevel.PRIVATE;
 
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor(access = PRIVATE)
 public class TripSaveRequest {
+
+    @NotBlank
+    private Long userId;
 
     @NotBlank
     private String city;

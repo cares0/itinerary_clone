@@ -1,5 +1,6 @@
 package com.triple.itinerary.domain.trip.entity;
 
+import com.triple.itinerary.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
@@ -21,8 +23,14 @@ public class Trip {
     @Column(name = "trip_id")
     private Long id;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(nullable = false)
     private String city;
 
+    @Column(nullable = false)
     private String title;
 
     private Period period;
@@ -38,6 +46,10 @@ public class Trip {
         this.period = Period.builder().arrivalDate(arrivalDate).departureDate(departureDate).build();
         this.partner = partner;
         this.tripStyle = tripStyle;
+    }
+
+    public void addUser(User user) {
+        this.user = user;
     }
 
     public void update(Trip modified) {

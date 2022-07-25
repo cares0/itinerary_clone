@@ -1,5 +1,6 @@
 package com.triple.itinerary.domain.user;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,8 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
+    @Builder
+    public User(Long id) {
+        this.id = id;
+    }
 }
