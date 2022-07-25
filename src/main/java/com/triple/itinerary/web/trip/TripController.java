@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.*;
 public class TripController {
 
     private TripService tripService;
+    private TripQueryService tripQueryService;
+
+    @GetMapping("/{tripId}")
+    public TripSearchResponse tripDetail(@PathVariable Long tripId) {
+        Trip trip = tripQueryService.getOne(tripId);
+        return TripSearchResponse.toResponse(trip);
+    }
 
     @PostMapping
     public Result<Long> tripAdd(@RequestBody TripSaveRequest tripSaveRequest) {
