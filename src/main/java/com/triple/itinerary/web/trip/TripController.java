@@ -1,17 +1,21 @@
 package com.triple.itinerary.web.trip;
 
 import com.triple.itinerary.domain.trip.entity.Trip;
-import com.triple.itinerary.domain.trip.service.TripQueryService;
+import com.triple.itinerary.web.common.ListResult;
+import com.triple.itinerary.web.trip.query.TripQueryService;
 import com.triple.itinerary.domain.trip.service.TripService;
 import com.triple.itinerary.web.common.Result;
 import com.triple.itinerary.web.trip.request.TripEditRequest;
 import com.triple.itinerary.web.trip.request.TripSaveRequest;
 import com.triple.itinerary.web.trip.response.TripEditResponse;
-import com.triple.itinerary.web.trip.response.TripSearchResponse;
+import com.triple.itinerary.web.trip.response.TripDetailResponse;
+import com.triple.itinerary.web.trip.response.TripListResponse;
 import com.triple.itinerary.web.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/trips")
@@ -22,9 +26,14 @@ public class TripController {
     private TripQueryService tripQueryService;
 
     @GetMapping("/{tripId}")
-    public TripSearchResponse tripDetail(@PathVariable Long tripId) {
-        Trip trip = tripQueryService.getOne(tripId);
-        return TripSearchResponse.toResponse(trip);
+    public TripDetailResponse tripDetail(@PathVariable Long tripId) {
+        return tripQueryService.getOne(tripId);
+    }
+
+    @GetMapping
+    public ListResult<TripListResponse> tripList(@RequestParam Long userId) {
+        List<TripListResponse> contents = tripQueryService.getList(userId);
+        return new ListResult<>(contents.size(), contents);
     }
 
     @PostMapping

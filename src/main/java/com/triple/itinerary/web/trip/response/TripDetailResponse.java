@@ -14,7 +14,7 @@ import static lombok.AccessLevel.*;
 @Getter @Setter
 @Builder
 @AllArgsConstructor(access = PRIVATE)
-public class TripSearchResponse {
+public class TripDetailResponse {
 
     private Long id;
     private String title;
@@ -23,14 +23,14 @@ public class TripSearchResponse {
     private String partner;
     private String tripStyle;
 
-    public static TripSearchResponse toResponse(Trip trip) {
+    public static TripDetailResponse toResponse(Trip trip) {
         String partner = Objects.isNull(trip.getPartner()) ?
                 null : trip.getPartner().getKorName();
 
         String tripStyle = Objects.isNull(trip.getTripStyle()) ?
                 null : trip.getTripStyle().getKorName();
 
-        return TripSearchResponse.builder()
+        return TripDetailResponse.builder()
                 .id(trip.getId())
                 .title(trip.getTitle())
                 .arrivalDate(trip.getPeriod().getArrivalDate())
