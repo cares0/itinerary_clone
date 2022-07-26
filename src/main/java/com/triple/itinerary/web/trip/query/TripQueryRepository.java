@@ -2,6 +2,7 @@ package com.triple.itinerary.web.trip.query;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.triple.itinerary.domain.trip.entity.QUserTrip;
 import com.triple.itinerary.web.trip.response.TripDetailResponse;
 import com.triple.itinerary.web.trip.response.TripListResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.triple.itinerary.domain.trip.entity.QTrip.*;
+import static com.triple.itinerary.domain.trip.entity.QUserTrip.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -39,7 +41,8 @@ public class TripQueryRepository {
                         trip.period.departureDate,
                         trip.period.arrivalDate))
                 .from(trip)
-                .where(trip.user.id.eq(userId))
+                .join(userTrip).on(userTrip.trip.eq(trip))
+                .where(userTrip.user.id.eq(userId))
                 .fetch();
     }
 }

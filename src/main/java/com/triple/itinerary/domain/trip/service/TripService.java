@@ -2,7 +2,9 @@ package com.triple.itinerary.domain.trip.service;
 
 import com.triple.itinerary.domain.exception.EntityNotFoundException;
 import com.triple.itinerary.domain.trip.entity.Trip;
+import com.triple.itinerary.domain.trip.entity.UserTrip;
 import com.triple.itinerary.domain.trip.repository.TripRepository;
+import com.triple.itinerary.domain.trip.repository.UserTripRepository;
 import com.triple.itinerary.domain.user.User;
 import com.triple.itinerary.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +17,29 @@ import org.springframework.transaction.annotation.Transactional;
 public class TripService {
 
     private final TripRepository tripRepository;
+    private final UserTripRepository userTripRepository;
     private final UserRepository userRepository;
 
     public Long add(Long userId, Trip trip) {
         User user = findUser(userId);
-        trip.addUser(user);
-        return tripRepository.save(trip).getId();
+        tripRepository.save(trip);
+
+        UserTrip userTrip = createUserTrip(trip, user);
+        userTripRepository.save(userTrip);
+        return trip.getId();
     }
 
     public Trip modify(Long tripId, Trip modified) {
         Trip original = findTrip(tripId);
         original.update(modified);
         return original;
+    }
+
+    private UserTrip createUserTrip(Trip trip, User user) {
+        return UserTrip.builder()
+                .trip(trip)
+                .user(user)
+                .build();
     }
 
     private User findUser(Long userId) {

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static javax.persistence.EnumType.*;
@@ -24,9 +26,8 @@ public class Trip {
     @Column(name = "trip_id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+/*    @OneToMany(fetch = LAZY, mappedBy = "trip")
+    private List<UserTrip> userTrips = new ArrayList<>();*/
 
     @Column(nullable = false)
     private String city;
@@ -49,10 +50,6 @@ public class Trip {
         this.period = Period.builder().arrivalDate(arrivalDate).departureDate(departureDate).build();
         this.partner = partner;
         this.tripStyle = tripStyle;
-    }
-
-    public void addUser(User user) {
-        this.user = user;
     }
 
     public void update(Trip modified) {
