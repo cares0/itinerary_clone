@@ -3,6 +3,7 @@ package com.triple.itinerary.domain.trip.service;
 import com.triple.itinerary.domain.trip.entity.Partner;
 import com.triple.itinerary.domain.trip.entity.Trip;
 import com.triple.itinerary.domain.trip.entity.TripStyle;
+import com.triple.itinerary.domain.trip.entity.UserTrip;
 import com.triple.itinerary.domain.trip.exception.WrongDepartureDateException;
 import com.triple.itinerary.domain.user.User;
 import org.assertj.core.api.Assertions;
@@ -171,6 +172,34 @@ class TripServiceTest {
         assertThat(modifiedTrip.getCity()).isEqualTo("도시 수정");
         assertThat(modifiedTrip.getPartner()).isEqualTo(Partner.CHILD);
         assertThat(modifiedTrip.getTripStyle()).isEqualTo(TripStyle.ACTIVITY);
+    }
+
+    @Test
+    public void 여행_초대() throws Exception {
+        // given
+        Trip trip = Trip.builder()
+                .city("도시")
+                .title("도시 여행")
+                .departureDate(LocalDate.of(2022, 07, 10))
+                .arrivalDate(LocalDate.of(2022, 07, 20))
+                .build();
+
+        tripService.add(userId, trip);
+
+        em.flush();
+        em.clear();
+
+        User user2 = User.builder().build();
+        em.persist(user2);
+        Long userId2 = user2.getId();
+
+        // when
+        Long userTripId = tripService.invite(userId2, trip.getId());
+
+        UserTrip userTrip = em.find(UserTrip.class, userTripId);
+        // then
+        assertThat(userTrip.getUser().getId()).isEqualTo(userId2);
+        assertThat(userTrip.getTrip().getId()).isEqualTo(trip.getId());
     }
 
 }

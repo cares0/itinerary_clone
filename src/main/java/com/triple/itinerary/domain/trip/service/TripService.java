@@ -24,7 +24,7 @@ public class TripService {
         User user = findUser(userId);
         tripRepository.save(trip);
 
-        UserTrip userTrip = createUserTrip(trip, user);
+        UserTrip userTrip = createUserTrip(user, trip);
         userTripRepository.save(userTrip);
         return trip.getId();
     }
@@ -35,10 +35,18 @@ public class TripService {
         return original;
     }
 
-    private UserTrip createUserTrip(Trip trip, User user) {
+    public Long invite(Long userId, Long tripId) {
+        User user = findUser(userId);
+        Trip trip = findTrip(tripId);
+
+        UserTrip userTrip = createUserTrip(user, trip);
+        return userTripRepository.save(userTrip).getId();
+    }
+
+    private UserTrip createUserTrip(User user, Trip trip) {
         return UserTrip.builder()
-                .trip(trip)
                 .user(user)
+                .trip(trip)
                 .build();
     }
 
@@ -51,5 +59,4 @@ public class TripService {
         return tripRepository.findById(tripId).orElseThrow(() ->
                 new EntityNotFoundException("해당 ID와 일치하는 여행을 찾을 수 없음"));
     }
-
 }

@@ -46,6 +46,12 @@ public class TripController {
         return new Result<>(savedId);
     }
 
+    @PostMapping("/{tripId}/invite")
+    public Result<Long> tripInvite(@PathVariable Long tripId, @RequestBody Long userId) {
+        Long userTripId = tripService.invite(userId, tripId);
+        return new Result<>(userTripId);
+    }
+
     @PatchMapping("/{tripId}")
     public TripEditResponse tripModify(@PathVariable Long tripId,
                                        @RequestBody TripEditRequest tripEditRequest) {
@@ -53,7 +59,5 @@ public class TripController {
         modified = tripService.modify(tripId, modified);
         return TripEditResponse.toResponse(modified);
     }
-
-
 
 }
