@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import static javax.persistence.EnumType.*;
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
@@ -35,8 +36,10 @@ public class Trip {
 
     private Period period;
 
+    @Enumerated(value = STRING)
     private Partner partner;
 
+    @Enumerated(value = STRING)
     private TripStyle tripStyle;
 
     @Builder

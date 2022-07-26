@@ -22,8 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TripController {
 
-    private TripService tripService;
-    private TripQueryService tripQueryService;
+    private final TripService tripService;
+    private final TripQueryService tripQueryService;
 
     @GetMapping("/{tripId}")
     public TripDetailResponse tripDetail(@PathVariable Long tripId) {

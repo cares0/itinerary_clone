@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TripQueryService {
 
-    private TripQueryRepository tripQueryRepository;
+    private final TripQueryRepository tripQueryRepository;
 
     public TripDetailResponse getOne(Long tripId) {
         return findTrip(tripId);

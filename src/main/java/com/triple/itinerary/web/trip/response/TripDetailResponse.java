@@ -1,10 +1,9 @@
 package com.triple.itinerary.web.trip.response;
 
+import com.triple.itinerary.domain.trip.entity.Partner;
 import com.triple.itinerary.domain.trip.entity.Trip;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.triple.itinerary.domain.trip.entity.TripStyle;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -13,6 +12,7 @@ import static lombok.AccessLevel.*;
 
 @Getter @Setter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor(access = PRIVATE)
 public class TripDetailResponse {
 
@@ -20,23 +20,17 @@ public class TripDetailResponse {
     private String title;
     private LocalDate arrivalDate;
     private LocalDate departureDate;
-    private String partner;
-    private String tripStyle;
+    private Partner partner;
+    private TripStyle tripStyle;
 
     public static TripDetailResponse toResponse(Trip trip) {
-        String partner = Objects.isNull(trip.getPartner()) ?
-                null : trip.getPartner().getKorName();
-
-        String tripStyle = Objects.isNull(trip.getTripStyle()) ?
-                null : trip.getTripStyle().getKorName();
-
         return TripDetailResponse.builder()
                 .id(trip.getId())
                 .title(trip.getTitle())
                 .arrivalDate(trip.getPeriod().getArrivalDate())
                 .departureDate(trip.getPeriod().getDepartureDate())
-                .partner(partner)
-                .tripStyle(tripStyle)
+                .partner(trip.getPartner())
+                .tripStyle(trip.getTripStyle())
                 .build();
     }
 }

@@ -16,7 +16,7 @@ import static com.triple.itinerary.domain.trip.entity.QTrip.*;
 @RequiredArgsConstructor
 public class TripQueryRepository {
 
-    private JPAQueryFactory jpaQueryFactory;
+    private final JPAQueryFactory jpaQueryFactory;
 
     public Optional<TripDetailResponse> findByTripId(Long tripId) {
         return Optional.ofNullable(
