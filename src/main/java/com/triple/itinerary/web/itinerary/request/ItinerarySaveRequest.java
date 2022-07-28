@@ -2,7 +2,6 @@ package com.triple.itinerary.web.itinerary.request;
 
 import com.triple.itinerary.domain.itinerary.entity.Itinerary;
 import com.triple.itinerary.domain.itinerary.entity.ItineraryType;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,13 +22,13 @@ public class ItinerarySaveRequest {
     private Long typeId;
 
     @NotNull
-    private Integer day;
+    private Integer visitDay;
 
     public Itinerary toEntity() {
         return Itinerary.builder()
                 .itineraryType(itineraryType)
                 .typeId(typeId)
-                .day(day)
+                .visitDay(visitDay)
                 .build();
     }
 }

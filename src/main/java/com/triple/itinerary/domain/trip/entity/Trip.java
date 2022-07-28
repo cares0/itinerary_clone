@@ -1,5 +1,6 @@
 package com.triple.itinerary.domain.trip.entity;
 
+import com.triple.itinerary.domain.common.BaseEntity;
 import com.triple.itinerary.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import static lombok.AccessLevel.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
-public class Trip {
+public class Trip extends BaseEntity {
 
     @Id @GeneratedValue(strategy = IDENTITY)
     @Column(name = "trip_id")

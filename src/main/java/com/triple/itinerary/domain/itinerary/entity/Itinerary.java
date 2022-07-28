@@ -32,7 +32,7 @@ public class Itinerary {
 
     private Long typeId;
 
-    private Integer day; // 몇일 차에 방문할 것인지
+    private Integer visitDay; // 몇일 차에 방문할 것인지
 
     private Integer visitOrder;
 
@@ -47,20 +47,10 @@ public class Itinerary {
     private String memo;
 
     @Builder
-    public Itinerary(ItineraryType itineraryType, Long typeId, Integer day, Integer visitOrder, Integer arrangeOrder, String title, String subTitle, LocalTime visitTime, String memo) {
+    private Itinerary(ItineraryType itineraryType, Long typeId, Integer visitDay) {
         this.itineraryType = itineraryType;
         this.typeId = typeId;
-        this.day = day;
-        this.visitOrder = visitOrder;
-        this.arrangeOrder = arrangeOrder;
-        this.title = title;
-        this.subTitle = subTitle;
-        this.visitTime = visitTime;
-        this.memo = memo;
-    }
-
-    public void addTrip(Trip trip) {
-        this.trip = trip;
+        this.visitDay = visitDay;
     }
 
     public void initItinerary(Trip trip, String title, String subTitle, Integer arrangeOrder, Integer visitOrder) {

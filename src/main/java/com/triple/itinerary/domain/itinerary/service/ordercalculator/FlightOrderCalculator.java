@@ -17,11 +17,12 @@ public class FlightOrderCalculator implements OrderCalculator {
 
     @Override
     public Integer createInitialArrangeOrder(List<Itinerary> findItineraries) {
-        return findItineraries.stream()
+        Integer lastArrangeOrder = findItineraries.stream()
                 .map(Itinerary::getArrangeOrder)
                 .sorted(Comparator.reverseOrder())
                 .limit(1)
-                .findAny().orElse(1);
+                .findAny().orElse(0);
+        return lastArrangeOrder + 1;
     }
 
     @Override

@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
 
-    @Query("select i from Itinerary i where i.trip.id = :tripId and i.day = :day")
-    List<Itinerary> findAllByTripIdAndDay(@Param("tripId") Long tripId, @Param("day") Integer day);
+    @Query("select i from Itinerary i where i.trip.id = :tripId and i.visitDay = :visitDay")
+    List<Itinerary> findAllByTripIdAndDay(@Param("tripId") Long tripId, @Param("visitDay") Integer visitDay);
 }

@@ -24,8 +24,8 @@ public class FlightTitleMaker implements TitleMaker {
     public String makeTitle(Itinerary itinerary) {
         Flight flight = findFlight(itinerary);
 
-        return flight.getDepartureAirport() + flight.getDepartureTime()
-                + " - " + flight.getArrivalAirport() + flight.getDepartureAirport();
+        return flight.getDepartureAirport() + " " + flight.getDepartureTime()
+                + " - " + flight.getArrivalAirport() + " " + flight.getArrivalTime();
     }
 
     @Override

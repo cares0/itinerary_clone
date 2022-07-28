@@ -33,14 +33,14 @@ public class ItineraryService {
         String subTitle = titleMaker.makeSubTitle(itinerary);
 
         List<Itinerary> findItineraries = itineraryRepository
-                .findAllByTripIdAndDay(itinerary.getTypeId(), itinerary.getDay());
+                .findAllByTripIdAndDay(tripId, itinerary.getVisitDay());
+
+        System.out.println("findItineraries.isEmpty() = " + findItineraries.isEmpty());
 
         Integer arrangeOrder = orderCalculator.createInitialArrangeOrder(findItineraries);
         Integer visitOrder = orderCalculator.createInitialVisitOrder(findItineraries);
 
-        Trip trip = tripRepository.findById(tripId).orElseThrow(() ->
-                new EntityNotFoundException("해당 ID와 일치하는 여행을 찾을 수 없음"));
-
+        Trip trip = findTrip(tripId);
         itinerary.initItinerary(trip, title, subTitle, arrangeOrder, visitOrder);
 
         return itineraryRepository.save(itinerary).getId();
@@ -60,6 +60,11 @@ public class ItineraryService {
                 .findAny()
                 .orElseThrow(()
                         -> new ConcreteNotFoundException("지원되는 TitleMaker 구현 클래스를 찾을 수 없습니다."));
+    }
+
+    private Trip findTrip(Long tripId) {
+        return tripRepository.findById(tripId).orElseThrow(() ->
+                new EntityNotFoundException("해당 ID와 일치하는 여행을 찾을 수 없음"));
     }
 
 }
